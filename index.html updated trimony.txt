@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trimony - Gestion de Patrimoine et Conseil Financier</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <h1>Trimony</h1>
+        <p>Votre partenaire en gestion de patrimoine et conseil financier personnalisé</p>
+    </header>
+
+    <nav class="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="#">Trimony</a>
+            <ul class="nav-links">
+                <li><a href="#services">Services</a></li>
+                <li><a href="#about">A propos</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#auth">Connexion / Inscription</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section id="services" class="section">
+        <div class="container">
+            <h2 class="section-title">Nos Services</h2>
+            <div class="services">
+                <div class="service-card">
+                    <h4>Gestion de Patrimoine</h4>
+                    <p>Obtenez des recommandations personnalisées pour optimiser votre patrimoine et diversifier vos investissements.</p>
+                </div>
+                <div class="service-card">
+                    <h4>Conseil en Investissement</h4>
+                    <p>Notre IA vous aide à prendre les meilleures décisions d'investissement en fonction de votre profil et de votre tolérance au risque.</p>
+                </div>
+                <div class="service-card">
+                    <h4>Suivi en Temps Réel</h4>
+                    <p>Suivez vos investissements avec des mises à jour en temps réel et des ajustements automatiques selon l'évolution du marché.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="section bg-light">
+        <div class="container">
+            <h2 class="section-title">A propos de Trimony</h2>
+            <p class="section-description">Trimony est une solution innovante qui vise à rendre la gestion de patrimoine accessible à tous. Avec l'utilisation de l'intelligence artificielle, nous apportons des conseils personnalisés et des solutions pratiques pour aider nos clients à atteindre leurs objectifs financiers.</p>
+        </div>
+    </section>
+
+    <section id="auth" class="section">
+        <div class="container">
+            <h2 class="section-title">Connexion / Inscription</h2>
+            <div class="auth-container">
+                <div class="auth-card">
+                    <h3>Créer un compte</h3>
+                    <form id="register-form">
+                        <label for="register-email">Adresse Email</label>
+                        <input type="email" id="register-email" required>
+                        <label for="register-password">Mot de passe</label>
+                        <input type="password" id="register-password" required>
+                        <button type="submit" class="btn">S'inscrire</button>
+                    </form>
+                </div>
+
+                <div class="auth-card">
+                    <h3>Se connecter</h3>
+                    <form id="login-form">
+                        <label for="login-email">Adresse Email</label>
+                        <input type="email" id="login-email" required>
+                        <label for="login-password">Mot de passe</label>
+                        <input type="password" id="login-password" required>
+                        <button type="submit" class="btn">Se connecter</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section">
+        <div class="container">
+            <h2 class="section-title">Contactez-nous</h2>
+            <form class="contact-form">
+                <label for="name">Nom</label>
+                <input type="text" id="name" required>
+                <label for="email">Email</label>
+                <input type="email" id="email" required>
+                <label for="message">Message</label>
+                <textarea id="message" rows="4" required></textarea>
+                <button type="submit" class="btn">Envoyer</button>
+            </form>
+        </div>
+    </section>
+
+    <section id="chatbot" class="section bg-light">
+        <div class="container">
+            <h2 class="section-title">Chatbot - Questions Fréquentes</h2>
+            <div class="chatbot-container">
+                <div id="chatbox" class="chatbox">
+                    <div id="chat-content" class="chat-content"></div>
+                    <input type="text" id="user-input" class="chat-input" placeholder="Posez votre question...">
+                    <button id="send-button" class="btn">Envoyer</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2024 Trimony. Tous droits réservés.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Inscription
+        $('#register-form').submit(function(e) {
+            e.preventDefault();
+            const email = $('#register-email').val();
+            const password = $('#register-password').val();
+
+            $.post('/register', { email, password })
+                .done(function(response) {
+                    alert(response.message);
+                })
+                .fail(function(error) {
+                    alert('Erreur : ' + error.responseJSON.message);
+                });
+        });
+
+        // Connexion
+        $('#login-form').submit(function(e) {
+            e.preventDefault();
+            const email = $('#login-email').val();
+            const password = $('#login-password').val();
+
+            $.post('/login', { email, password })
+                .done(function(response) {
+                    alert('Connexion réussie !');
+                    localStorage.setItem('access_token', response.access_token);
+                })
+                .fail(function(error) {
+                    alert('Erreur : ' + error.responseJSON.message);
+                });
+        });
+
+        // Chatbot
+        const faqResponses = {
+            "Quels sont vos services ?": "Nous offrons des services de gestion de patrimoine, de conseil en investissement et de suivi en temps réel.",
+            "Comment puis-je créer un compte ?": "Vous pouvez créer un compte en vous rendant dans la section Connexion / Inscription et en remplissant le formulaire d'inscription.",
+            "Quels sont les frais pour utiliser Trimony ?": "Nos services de base sont gratuits. Des services premium peuvent être proposés moyennant un abonnement.",
+            "Comment fonctionne l'IA pour les conseils en investissement ?": "Notre IA analyse votre profil financier et votre tolérance au risque pour proposer des recommandations personnalisées."
+        };
+
+        $('#send-button').click(function() {
+            const userInput = $('#user-input').val();
+            if (userInput.trim() !== "") {
+                $('#chat-content').append(`<div class='user-message'>${userInput}</div>`);
+                let response = faqResponses[userInput] || "Désolé, je ne connais pas la réponse à cette question. Veuillez nous <a href='#contact'>contacter</a> pour plus d'informations.";
+                $('#chat-content').append(`<div class='bot-message'>${response}</div>`);
+                $('#user-input').val("");
+            }
+        });
+
+        $('#user-input').keypress(function(e) {
+            if (e.which == 13) { // Enter key pressed
+                $('#send-button').click();
+            }
+        });
+    </script>
+</body>
+</html>
